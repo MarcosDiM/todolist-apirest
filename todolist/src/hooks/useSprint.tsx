@@ -7,8 +7,6 @@ import {
   postNuevoSprint,
 } from "../http/sprintList";
 import { ISprint, ITarea } from "../types/ITodo";
-import { editarTarea } from "../http/todoList";
-
 export const useSprint = () => {
   const {
     sprints,

@@ -1,6 +1,14 @@
 {
   "backlog": {
-    "tareas": []
+    "tareas": [
+      {
+        "id": "1746117565477",
+        "titulo": "Tarea 1",
+        "descripcion": "asdqad",
+        "fechaLimite": "2025-05-15",
+        "status": "pendiente"
+      }
+    ]
   },
   "sprintList": {
     "sprints": [

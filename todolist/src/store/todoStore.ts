@@ -19,8 +19,8 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   //Agregar una tarea
 
-  agregarUnaTarea: async (nuevaTarea) => {
-    await postNuevaTarea(nuevaTarea); // ✅ guardar en db.json
+  agregarUnaTarea:(nuevaTarea) => {
+    postNuevaTarea(nuevaTarea); // ✅ guardar en db.json
     set((state) => ({
       tareas: [...state.tareas, nuevaTarea], // ✅ reflejar en UI
     }));
@@ -28,9 +28,9 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   //Editar una tarea
 
-  editarUnaTarea: async (tareaEditada) => {
+  editarUnaTarea: (tareaEditada) => {
     try {
-      await editarTarea(tareaEditada);
+      editarTarea(tareaEditada);
       set((state) => ({
         tareas: state.tareas.map((t) =>
           t.id === tareaEditada.id ? tareaEditada : t
