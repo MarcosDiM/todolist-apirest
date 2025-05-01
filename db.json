@@ -1,0 +1,16 @@
+{
+  "backlog": {
+    "tareas": []
+  },
+  "sprintList": {
+    "sprints": [
+      {
+        "id": "1745523489375",
+        "nombre": "Sprint 1",
+        "fechaInicio": "2025-05-01",
+        "fechaCierre": "2025-05-10",
+        "tareas": []
+      }
+    ]
+  }
+}

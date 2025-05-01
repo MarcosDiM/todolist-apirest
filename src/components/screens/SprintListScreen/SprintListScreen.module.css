@@ -1,0 +1,31 @@
+.sprintListScreenContainer{
+    background-color: #f0f0f0;
+    height: 100vh;
+}
+
+.titleSprintList{
+    margin: 5vh 5vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addSprintButton Button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mainSprintListScreen {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+    border: 2px solid #ccc;
+}
+
+
+
+  

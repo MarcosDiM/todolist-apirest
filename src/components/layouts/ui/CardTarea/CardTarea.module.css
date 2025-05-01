@@ -1,0 +1,27 @@
+.tareasContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 250px;
+}
+
+.cardBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0.4rem;
+}
+
+.cardDescripcion{
+  font-size: 1rem;
+  width: 100%;
+  height: auto;
+
+}
+.cardTitle {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
