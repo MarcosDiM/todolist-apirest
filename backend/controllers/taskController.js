@@ -27,7 +27,7 @@ export const getAllTasks = async (req, res) => {
 // POST /tasks
 export const addNewTask = async (req, res) => {
   try {
-    const { titulo, descripcion, status, sprint, fechaLimite, color } =
+    const { titulo, descripcion, status, sprint, fechaLimite } =
       req.body;
     const newTask = new Task({
       titulo,
@@ -35,7 +35,6 @@ export const addNewTask = async (req, res) => {
       status,
       sprint,
       fechaLimite,
-      color,
     });
     await newTask.save();
     res.status(201).json(newTask);

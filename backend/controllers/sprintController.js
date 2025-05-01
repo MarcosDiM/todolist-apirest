@@ -28,12 +28,15 @@ export const getSprintById = async (req, res) => {
 // POST /sprints
 export const addNewSprint = async (req, res) => {
   try {
-    const { fechaInicio, fechaCierre, tareas = [], color } = req.body;
-    const newSprint = new Sprint({ fechaInicio, fechaCierre, tareas, color });
+    const { nombre, fechaInicio, fechaCierre, tareas = [], color } = req.body; // Añade "nombre"
+    const newSprint = new Sprint({ nombre, fechaInicio, fechaCierre, tareas, color }); // Inclúyelo aquí
     await newSprint.save();
     res.status(201).json(newSprint);
   } catch (error) {
-    res.status(500).json({ error: "Error al agregar sprint", error });
+    res.status(500).json({ 
+      error: "Error al agregar sprint",
+      detalle: error.message 
+    });
   }
 };
 // PUT /sprints/:id
