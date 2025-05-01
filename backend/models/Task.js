@@ -17,9 +17,6 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  color: {
-    type: String,
-  },
 });
 
 export const Task = mongoose.model("Task", TaskSchema);

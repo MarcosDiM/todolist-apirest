@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const SprintSchema = new mongoose.Schema({
+  nombre: {
+    type: String,
+    required: true,
+  },
   fechaInicio: {
     type: Date,
     required: true,
@@ -15,9 +19,6 @@ const SprintSchema = new mongoose.Schema({
       ref: "Task",
     },
   ],
-  color: {
-    type: String,
-  },
 });
 
 export const Sprint = mongoose.model("Sprint", SprintSchema);
