@@ -15,14 +15,14 @@ export const SprintScreen = () => {
   useEffect(() => {
     // Suscribirse a los cambios en el estado global
     const unsubscribe = sprintStore.subscribe((state) => {
-      const updatedSprint = state.sprints.find((s) => s.id === sprintFromLocation.id);
+      const updatedSprint = state.sprints.find((s) => s._id === sprintFromLocation._id);
       if (updatedSprint) {
         setSprint(updatedSprint);
       }
     });
 
     return () => unsubscribe(); // Limpiar la suscripción al desmontar el componente
-  }, [sprintFromLocation.id]);
+  }, [sprintFromLocation._id]);
 
   if (!sprint) {
     throw new Error("No se encontró el sprint seleccionado.");
@@ -57,9 +57,9 @@ export const SprintScreen = () => {
                 <div className={styles.tareas}>
                   {tareasPendientes.map((tarea) => (
                     <CardTarea
-                      key={tarea.id}
+                      key={tarea._id}
                       tarea={tarea}
-                      sprintId={sprint.id}
+                      sprintId={sprint._id}
                     />
                   ))}
                 </div>
@@ -70,9 +70,9 @@ export const SprintScreen = () => {
                 <div className={styles.tareas}>
                   {tareasEnProgreso.map((tarea) => (
                     <CardTarea
-                      key={tarea.id}
+                      key={tarea._id}
                       tarea={tarea}
-                      sprintId={sprint.id}
+                      sprintId={sprint._id}
                     />
                   ))}
                 </div>
@@ -83,9 +83,9 @@ export const SprintScreen = () => {
                 <div className={styles.tareas}>
                   {tareasCompletadas.map((tarea) => (
                     <CardTarea
-                      key={tarea.id}
+                      key={tarea._id}
                       tarea={tarea}
-                      sprintId={sprint.id}
+                      sprintId={sprint._id}
                     />
                   ))}
                 </div>

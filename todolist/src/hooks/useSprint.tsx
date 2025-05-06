@@ -1,95 +1,56 @@
 import { useShallow } from "zustand/shallow";
 import { sprintStore } from "../store/sprintStore";
-import {
-  editarSprint,
-  eliminarSprintById,
-  getAllSprints,
-  postNuevoSprint,
-} from "../http/sprintList";
 import { ISprint, ITarea } from "../types/ITodo";
+
 export const useSprint = () => {
   const {
     sprints,
-    setSprintArray,
+    fetchSprints,
     agregarUnSprint,
-    eliminarUnSprint,
     editarUnSprint,
-    editarTareaEnSprint,
+    eliminarUnSprint,
+    // editarTareaEnSprint,
   } = sprintStore(
     useShallow((state) => ({
       sprints: state.sprints,
-      setSprintArray: state.setSprintArray,
+      fetchSprints: state.fetchSprints,
       agregarUnSprint: state.agregarUnSprint,
-      eliminarUnSprint: state.eliminarUnSprint,
       editarUnSprint: state.editarUnSprint,
-      editarTareaEnSprint: state.editarTareaEnSprint,
+      eliminarUnSprint: state.eliminarUnSprint,
+      // editarTareaEnSprint: state.editarTareaEnSprint,
     }))
   );
 
   const getSprints = async () => {
-    const data = await getAllSprints();
-    if (data) setSprintArray(data);
+    await fetchSprints();
   };
 
   const crearSprint = async (nuevoSprint: ISprint) => {
-    agregarUnSprint(nuevoSprint);
-    try {
-      await postNuevoSprint(nuevoSprint);
-    } catch (error) {
-      console.log("Algo salio mal");
-    }
+    await agregarUnSprint(nuevoSprint);
   };
 
   const putSprintEditar = async (sprintEditado: ISprint) => {
-    const estadoPrevio = sprints.find((el) => el.id === sprintEditado.id);
-    editarUnSprint(sprintEditado);
-    try {
-      await editarSprint(sprintEditado);
-    } catch (error) {
-      console.log("Error al editar el sprint en JSON Server", error);
-      if (estadoPrevio) editarUnSprint(estadoPrevio);
-    }
+    await editarUnSprint(sprintEditado);
   };
 
   const eliminarSprint = async (idSprint: string) => {
-    const estadoPrevio = sprints.find((el) => el.id === idSprint);
-    eliminarUnSprint(idSprint);
-    try {
-      await eliminarSprintById(idSprint);
-    } catch (error) {
-      if (estadoPrevio) agregarUnSprint(estadoPrevio);
-    }
+    await eliminarUnSprint(idSprint);
   };
-  const editarTareaEnSprintAsync = async (
-    idSprint: string,
-    idTarea: string,
-    taskData: Partial<ITarea>
-  ) => {
-    try {
-      // Actualiza el estado local
-      editarTareaEnSprint(idSprint, idTarea, taskData);
 
-      // Sincroniza con el backend
-      const sprint = sprints.find((s) => s.id === idSprint);
-      if (!sprint) throw new Error("Sprint no encontrado");
-
-      const tareasActualizadas = sprint.tareas.map((tarea) =>
-        tarea.id === idTarea ? { ...tarea, ...taskData } : tarea
-      );
-
-      const sprintActualizado: ISprint = { ...sprint, tareas: tareasActualizadas };
-      await editarSprint(sprintActualizado);
-    } catch (error) {
-      console.error("Error al editar la tarea en el sprint:", error);
-    }
-  };
+  // const editarTareaEnSprintAsync = async (
+  //   idSprint: string,
+  //   idTarea: string,
+  //   taskData: Partial<ITarea>
+  // ) => {
+  //   await editarTareaEnSprint(idSprint, idTarea, taskData);
+  // };
 
   return {
     getSprints,
     crearSprint,
     putSprintEditar,
     eliminarSprint,
-    editarTareaEnSprintAsync,
+    // editarTareaEnSprintAsync,
     sprints,
   };
 };

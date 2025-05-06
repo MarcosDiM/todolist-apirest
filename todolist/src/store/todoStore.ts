@@ -1,13 +1,18 @@
 import { create } from "zustand";
 import { ITarea } from "../types/ITodo";
-import { editarTarea, postNuevaTarea } from "../http/todoList";
+import { 
+  getAllTareas,
+  postNuevaTarea,
+  editarTarea,
+  eliminarTareaById, 
+} from "../http/todoList";
 
 interface ITaskStore {
   tareas: ITarea[];
-  setArrayTareas: (arrayDeTareas: ITarea[]) => void;
-  agregarUnaTarea: (nuevaTarea: ITarea) => void;
-  editarUnaTarea: (tareaEditada: ITarea) => void;
-  eliminarUnaTarea: (idTarea: string) => void;
+  fetchTareas: () => Promise<void>;
+  agregarUnaTarea: (nuevaTarea: Partial<ITarea>) => Promise<void>;
+  editarUnaTarea: (tareaEditada: ITarea) => Promise<void>;
+  eliminarUnaTarea: (idTarea: string) => Promise<void>;
 }
 
 export const taskStore = create<ITaskStore>((set) => ({
@@ -15,51 +20,52 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   //Agregar array de tareas
 
-  setArrayTareas: (arrayDeTareas) => set(() => ({ tareas: arrayDeTareas })),
+  fetchTareas: async () => {
+    try {
+      const tareas = await getAllTareas();
+      set(() => ({ tareas }));
+    } catch (error) {
+      console.error("Error al traer tareas:", error);
+    }
+  },
 
   //Agregar una tarea
 
-  agregarUnaTarea:(nuevaTarea) => {
-    postNuevaTarea(nuevaTarea); // ✅ guardar en db.json
-    set((state) => ({
-      tareas: [...state.tareas, nuevaTarea], // ✅ reflejar en UI
-    }));
+  agregarUnaTarea: async (nuevaTarea) => {
+    try {
+      const tareaCreada = await postNuevaTarea(nuevaTarea);
+      set((state) => ({
+        tareas: [...state.tareas, tareaCreada],
+      }));
+    } catch (error) {
+      console.error("Error al agregar tarea:", error);
+    }
   },
 
   //Editar una tarea
 
-  editarUnaTarea: (tareaEditada) => {
+  editarUnaTarea: async (tareaEditada) => {
     try {
-      editarTarea(tareaEditada);
+      const tareaActualizada = await editarTarea(tareaEditada);
       set((state) => ({
         tareas: state.tareas.map((t) =>
-          t.id === tareaEditada.id ? tareaEditada : t
+          t._id === tareaActualizada._id ? tareaActualizada : t
         ),
       }));
     } catch (error) {
-      console.error("Error al editar la tarea:", error);
-      throw error; // Para que lo pueda capturar tu componente si querés mostrar un error
+      console.error("Error al editar tarea:", error);
     }
   },
 
-  // editarUnaTarea: async (tareaEditada) =>
-  //   set((state) => {
-  //     const tareaArreglada = state.tareas.map((tarea) =>
-  //       tarea.id === tareaEditada.id ? { ...tarea, ...tareaEditada } : tarea
-  //     );
-  //     return { tareas: tareaArreglada };
-  //   }),
-
   //eliminar una tarea
-  eliminarUnaTarea: (idTarea) =>
-    set((state) => {
-      const arregloTareas = state.tareas.filter(
-        (tarea) => tarea.id !== idTarea
-      );
-      return { tareas: arregloTareas };
-    }),
-  eliminarTareaDelBacklog: (idTarea: string) =>
-    set((state) => ({
-      tareas: state.tareas.filter((tarea) => tarea.id !== idTarea),
-    })),
+  eliminarUnaTarea: async (idTarea) => {
+    try {
+      await eliminarTareaById(idTarea);
+      set((state) => ({
+        tareas: state.tareas.filter((tarea) => tarea._id !== idTarea),
+      }));
+    } catch (error) {
+      console.error("Error al eliminar tarea:", error);
+    }
+  },
 }));

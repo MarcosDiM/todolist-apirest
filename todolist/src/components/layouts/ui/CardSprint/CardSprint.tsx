@@ -17,7 +17,7 @@ interface CardSprintProps {
 export const CardSprint = ({ sprint }: CardSprintProps) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate(`/sprints/${sprint.id}`, { state: { sprint } });
+    navigate(`/sprints/${sprint._id}`, { state: { sprint } });
   };
 
   const [modalShowSprint, setModalShowSprint] = useState(false);
@@ -110,7 +110,7 @@ export const CardSprint = ({ sprint }: CardSprintProps) => {
                   style={{ color: "black" }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleEliminarTarea(sprint.id!);
+                    handleEliminarTarea(sprint._id!);
                   }}
                 >
                   delete
@@ -143,7 +143,7 @@ export const CardSprint = ({ sprint }: CardSprintProps) => {
       <ModalAsociarTareaSprint
         show={modalAsociarTarea}
         handleClose={handleModalAsociarTarea}
-        sprintId={sprint.id}
+        sprintId={sprint._id}
       />
     </>
   );

@@ -48,7 +48,7 @@ export const Home = () => {
         
         <div className={styles.cardContainer}>
             {sprints.map((sprint : ISprint) => (
-              <CardSprint key={sprint.id} sprint={sprint}/>
+              <CardSprint key={sprint._id} sprint={sprint}/>
             ))}
         </div>  
       </div>

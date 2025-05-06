@@ -2,61 +2,44 @@ import axios from "axios";
 import { ISprint } from "../types/ITodo";
 
 
-const API_URL = "http://localhost:3000/sprintList";
+const API_URL = "http://localhost:3000/sprints";
 
-export const getAllSprints = async () => {
+export const getAllSprints = async () : Promise<ISprint[]> => {
     try {
-        const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
-        return response.data.sprints;
-    } catch (error) {
-        console.log(error);
-    }
+        const response = await axios.get<ISprint[]>(API_URL);
+        return response.data;
+      } catch (error) {
+        console.error("Error al obtener las tareas:", error);
+        throw error;
+      }
 };
 
-export const postNuevoSprint = async (nuevoSprint: ISprint) => {
+export const postNuevoSprint = async (nuevoSprint: Partial<ISprint>): Promise<ISprint> => {
     try {
-        const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
-        const sprints = response.data.sprints;
-
-        const updatedSprints = [...sprints, nuevoSprint];
-
-        await axios.put(API_URL, { sprints: updatedSprints });
-        return nuevoSprint;
-    } catch (error) {
-        console.log("Error al crear un sprint", error);
-    }
-};
-
-export const editarSprint = async (sprintEditado: ISprint) => {
-    try {
-        const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
-        const sprints = response.data.sprints;
-
-        // Actualizar el sprint en el array
-        const updatedSprints = sprints.map((s: ISprint) =>
-            s.id === sprintEditado.id ? sprintEditado : s
-        );
-
-        // Enviar el array actualizado al servidor
-        await axios.put(API_URL, { sprints: updatedSprints });
-        return sprintEditado;
-
-    } catch (error) {
-        console.log("Error al editar el sprint", error);
+        const response = await axios.post<ISprint>(API_URL, nuevoSprint);
+        return response.data;
+      } catch (error) {
+        console.error("Error al crear la tarea:", error);
         throw error;
     }
 };
 
-export const eliminarSprintById = async (idSprint: string) => {
+
+export const editarSprint = async (sprintEditado: ISprint): Promise<ISprint> => {
     try {
-        const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
-        const sprints = response.data.sprints;
-
-        const updatedSprints = sprints.filter(s => s.id !== idSprint);
-
-        await axios.put(API_URL, { sprints: updatedSprints });
-        return idSprint;
+      const response = await axios.put<ISprint>(`${API_URL}/${sprintEditado._id}`, sprintEditado);
+      return response.data;
     } catch (error) {
-        console.log(error);
+      console.error("Error al editar la tarea:", error);
+      throw error;
     }
-};
+  };
+
+export const eliminarSprintById = async (idSprint: string): Promise<void> => {
+    try {
+      await axios.delete(`${API_URL}/${idSprint}`);
+    } catch (error) {
+      console.error("Error al eliminar la tarea:", error);
+      throw error;
+    }
+  };

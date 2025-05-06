@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { taskStore } from "../../../store/todoStore";
 import { Button, Form, Modal } from "react-bootstrap";
 import { ITarea } from "../../../types/ITodo";
-import { sprintStore } from "../../../store/sprintStore";
 import { useSprint } from "../../../hooks/useSprint";
 
 interface Props {

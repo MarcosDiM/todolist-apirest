@@ -24,7 +24,7 @@ export const ModalAsociarTareaSprint = ({
   const [tareaSeleccionada, setTareaSeleccionada] = useState<string>("");
 
   const handleAsociarTarea = async () => {
-    const tarea = tareas.find((t) => t.id === tareaSeleccionada);
+    const tarea = tareas.find((t) => t._id === tareaSeleccionada);
     if (tarea) {
       try {
         // Actualizar el sprint en el backend
@@ -43,7 +43,7 @@ export const ModalAsociarTareaSprint = ({
           "http://localhost:3000/backlog"
         );
         const backlogTareas = backlogResponse.data.tareas.filter(
-          (t) => t.id !== tarea.id
+          (t) => t.id !== tarea._id
         );
         await axios.put("http://localhost:3000/backlog", {
           tareas: backlogTareas,
@@ -51,7 +51,7 @@ export const ModalAsociarTareaSprint = ({
 
         // Actualizar el estado local
         asociarTareaASprint(sprintId, tarea);
-        eliminarTareaDelBacklog(tarea.id);
+        eliminarTareaDelBacklog(tarea._id);
 
         handleClose();
       } catch (error) {
@@ -76,7 +76,7 @@ export const ModalAsociarTareaSprint = ({
             >
               <option value="">Selecciona una tarea</option>
               {tareas.map((tarea) => (
-                <option key={tarea.id} value={tarea.id}>
+                <option key={tarea._id} value={tarea._id}>
                   {tarea.titulo}
                 </option>
               ))}

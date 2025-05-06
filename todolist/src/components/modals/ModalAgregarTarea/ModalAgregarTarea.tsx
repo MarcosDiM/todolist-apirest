@@ -21,7 +21,7 @@ export const ModalAgregarTarea = ({ show, handleClose }: Props) => {
     if (!titulo || !descripcion || !fechaLimite) return;
 
     const nuevaTarea: ITarea = {
-      id: Date.now().toString(),
+      _id: Date.now().toString(),
       titulo,
       descripcion,
       fechaLimite,

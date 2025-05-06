@@ -22,7 +22,7 @@ export const ModalAgregarSprint = ({show, handleClose}: AgregarSprintProps) => {
         if (!nombre || !fechaInicio || !fechaCierre) return;
 
         const nuevoSprint = {
-            id: Date.now().toString(),
+            _id: Date.now().toString(),
             nombre,
             fechaInicio,
             fechaCierre,

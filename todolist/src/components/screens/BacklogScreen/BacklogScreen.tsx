@@ -40,7 +40,7 @@ export const BacklogScreen = () => {
             </div>
             <div className={styles.tareaContainer}>
               {tareas.map((tarea) => (
-                <CardTarea key={tarea.id} tarea={tarea} />
+                <CardTarea key={tarea._id} tarea={tarea} />
               ))}
             </div>
           </div>

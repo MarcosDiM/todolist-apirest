@@ -1,13 +1,14 @@
 export interface ITarea {
-  id?: string;
+  _id: string;
   titulo: string;
   descripcion: string;
+  status: string;
+  sprint: string;
   fechaLimite: string;
-  status: "pendiente" | "en-progreso" | "completada";
 }
 
 export interface ISprint {
-  id: string;
+  _id: string;
   nombre: string;
   fechaInicio: string;
   fechaCierre: string;

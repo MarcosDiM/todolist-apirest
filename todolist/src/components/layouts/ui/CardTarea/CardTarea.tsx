@@ -63,9 +63,9 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
           );
           const sprints = response.data.sprints;
 
-          const sprint = sprints.find((s) => s.id === sprintId);
+          const sprint = sprints.find((s) => s._id === sprintId);
           if (sprint) {
-            sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
+            sprint.tareas = sprint.tareas.filter((tarea) => tarea !== id);
             await axios.put("http://localhost:3000/sprintList", { sprints });
           }
 
@@ -101,7 +101,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
 
     try {
       // Llamar a la función del store para actualizar el estado
-      await cambiarEstadoTarea(sprintId, tarea.id!, nuevoEstado);
+      await cambiarEstadoTarea(sprintId, tarea._id!, nuevoEstado);
     } catch (error) {
       console.error("Error al cambiar el estado de la tarea:", error);
     }
@@ -109,7 +109,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
 
   return (
     <div className={styles.tareasContainer}>
-      <Card key={tarea.id} className={styles.card}>
+      <Card key={tarea._id} className={styles.card}>
         <Card.Body className={styles.cardBody}>
           <div className={styles.containerCard}>
             <h5 className={styles.cardTitle}>{tarea.titulo}</h5>
@@ -150,7 +150,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 variant="danger"
                 size="sm"
                 className="rounded-2"
-                onClick={() => handleEliminarTarea(tarea.id!)}
+                onClick={() => handleEliminarTarea(tarea._id!)}
               >
                 <span className="material-symbols-outlined" style={{ color: "black" }}>delete</span>
               </Button>

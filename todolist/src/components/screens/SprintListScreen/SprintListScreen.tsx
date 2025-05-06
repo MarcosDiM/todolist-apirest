@@ -41,7 +41,7 @@ export const SprintListScreen = () => {
         </div>
         <div className={styles.mainSprintListScreen}>
           {sprints.map((sprint : ISprint) => (
-              <CardSprint key={sprint.id} sprint={sprint}/>
+              <CardSprint key={sprint._id} sprint={sprint}/>
             ))}
         </div>
       </div>
