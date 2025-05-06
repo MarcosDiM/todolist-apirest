@@ -5,19 +5,22 @@ import styles from "./BacklogScreen.module.css";
 import { ModalAgregarTarea } from "../../modals/ModalAgregarTarea/ModalAgregarTarea";
 import { useEffect, useState } from "react";
 import { CardTarea } from "../../layouts/ui/CardTarea/CardTarea";
-import { taskStore } from "../../../store/todoStore";
+import { useTask } from "../../../hooks/useTask";
 
 export const BacklogScreen = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const tareas = taskStore((state) => state.tareas);
+  const { tareas, getTareas } = useTask();
+
+  console.log("Tareas cargadas:", tareas);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    console.log("Tareas cargadas:", tareas);
-  }, [tareas]);
+    getTareas()
+    
+  }, []);
 
   return (
     <>
